@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MBG Kalkulator - Rupiah ke Hari</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f0f2f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 28px 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 6px;
+            color: #1a1a2e;
+        }
+
+        .sub {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 28px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .badge {
+            background: #e8f0fe;
+            text-align: center;
+            padding: 12px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: #1a5f7a;
+            font-weight: 500;
+        }
+
+        .badge strong {
+            font-size: 16px;
+            background: #1a5f7a;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin: 0 4px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            background: #f5f7fa;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 0 16px;
+            transition: all 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #3b82f6;
+            background: white;
+        }
+
+        .currency {
+            font-size: 20px;
+            font-weight: 600;
+            color: #3b82f6;
+            margin-right: 8px;
+        }
+
+        input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 16px 0;
+            font-size: 18px;
+            font-weight: 500;
+            outline: none;
+            width: 100%;
+        }
+
+        input::placeholder {
+            color: #bbb;
+            font-weight: normal;
+            font-size: 15px;
+        }
+
+        .presets {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .preset {
+            background: #f0f2f5;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #444;
+        }
+
+        .preset:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        button {
+            width: 100%;
+            background: #1a5f7a;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 16px 0 20px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #0e4a60;
+        }
+
+        .result {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #eef2f6;
+        }
+
+        .result-label {
+            font-size: 13px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .days {
+            font-size: 56px;
+            font-weight: 800;
+            color: #1a5f7a;
+            line-height: 1;
+        }
+
+        .days-unit {
+            font-size: 18px;
+            font-weight: 500;
+            color: #666;
+            margin-left: 6px;
+        }
+
+        .detail {
+            margin-top: 16px;
+            font-size: 13px;
+            color: #777;
+            word-break: break-word;
+        }
+
+        .info {
+            margin-top: 16px;
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+
+        @media (max-width: 450px) {
+            .card { padding: 20px; }
+            .days { font-size: 44px; }
+            input { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h1>💰 MBG</h1>
+        <div class="sub">Rupiah → Hari</div>
+
+        <div class="badge">
+            📌 Patokan: <strong>1,2 Triliun</strong> = <strong>1 Hari</strong>
+        </div>
+
+        <div class="input-group">
+            <label>Masukkan jumlah Rupiah</label>
+            <div class="input-wrapper">
+                <span class="currency">Rp</span>
+                <input type="text" id="amount" placeholder="Contoh: 1,2T atau 2.5T atau 750M" value="1,2T">
+            </div>
+            <div class="presets">
+                <button class="preset" data-value="1,2T">1,2T</button>
+                <button class="preset" data-value="2,4T">2,4T</button>
+                <button class="preset" data-value="600M">600M</button>
+                <button class="preset" data-value="7,2T">7,2T</button>
+                <button class="preset" data-value="500M">500M</button>
+            </div>
+        </div>
+
+        <button id="convert">Konversi ke Hari</button>
+
+        <div class="result">
+            <div class="result-label">SETARA DENGAN</div>
+            <div>
+                <span class="days" id="daysValue">1</span>
+                <span class="days-unit" id="daysUnit">HARI</span>
+            </div>
+            <div class="detail" id="detailText">Rp 1.200.000.000.000 ÷ 1,2T = 1 hari</div>
+        </div>
+
+        <div class="info">
+            💡 Format: 1,2T (triliun) | 750M (miliar) | 500000000000<br>
+            Rumus: Hari = Jumlah ÷ 1.200.000.000.000
+        </div>
+    </div>
+</div>
+
+<script>
+    const SATU_HARI = 1_200_000_000_000; // 1.2 Triliun
+
+    // Parse input (support: 1,2T , 2.5T , 750M , 500000000000)
+    function parseRupiah(input) {
+        if (!input) return NaN;
+        let str = input.toString().trim().toUpperCase();
+        
+        let multiplier = 1;
+        if (str.includes('T')) {
+            multiplier = 1_000_000_000_000;
+            str = str.replace(/T/g, '');
+        } else if (str.includes('M')) {
+            multiplier = 1_000_000_000;
+            str = str.replace(/M/g, '');
+        }
+        
+        // Ganti koma dengan titik untuk desimal
+        str = str.replace(/,/g, '.');
+        // Hapus semua titik (pemisah ribuan) kecuali titik terakhir untuk desimal
+        let parts = str.split('.');
+        if (parts.length > 2) {
+            // lebih dari 1 titik -> hapus semua titik
+            str = str.replace(/\./g, '');
+        } else if (parts.length === 2) {
+            // format desimal: biarkan
+            // tapi hapus titik jika itu pemisah ribuan? cek panjang bagian kedua
+            if (parts[1].length > 3) {
+                // kemungkinan titik ribuan
+                str = str.replace(/\./g, '');
+            }
+        } else {
+            str = str;
+        }
+        
+        // Hapus karakter selain angka, minus, titik
+        str = str.replace(/[^0-9.-]/g, '');
+        if (str === '' || str === '-') return NaN;
+        
+        let angka = parseFloat(str);
+        if (isNaN(angka)) return NaN;
+        
+        return angka * multiplier;
+    }
+
+    // Format Rupiah ke tampilan rapi
+    function formatRupiah(angka) {
+        if (isNaN(angka)) return 'Rp 0';
+        let bulat = Math.floor(angka);
+        return 'Rp ' + bulat.toLocaleString('id-ID');
+    }
+
+    // Format hari (hilangkan .00 jika bulat)
+    function formatHari(hari) {
+        if (isNaN(hari)) return '0';
+        if (Math.abs(hari - Math.round(hari)) < 0.000001) {
+            return Math.round(hari).toString();
+        }
+        // maksimal 4 desimal
+        let fixed = hari.toFixed(4).replace(/\.?0+$/, '');
+        return fixed;
+    }
+
+    function konversi() {
+        let inputField = document.getElementById('amount');
+        let raw = inputField.value;
+        let nominal = parseRupiah(raw);
+        
+        let daysEl = document.getElementById('daysValue');
+        let unitEl = document.getElementById('daysUnit');
+        let detailEl = document.getElementById('detailText');
+        
+        if (isNaN(nominal) || nominal < 0) {
+            daysEl.innerText = '?';
+            unitEl.innerText = 'ERROR';
+            detailEl.innerText = 'Masukkan angka yang valid (contoh: 1,2T atau 750M)';
+            return;
+        }
+        
+        let hari = nominal / SATU_HARI;
+        let hariTeks = formatHari(hari);
+        
+        daysEl.innerText = hariTeks;
+        unitEl.innerText = hari === 1 ? 'HARI' : 'HARI';
+        
+        let rupiahTeks = formatRupiah(nominal);
+        detailEl.innerText = `${rupiahTeks} ÷ 1,2T = ${hariTeks} hari`;
+    }
+    
+    // Event listeners
+    document.getElementById('convert').addEventListener('click', konversi);
+    
+    // Preset buttons
+    document.querySelectorAll('.preset').forEach(btn => {
+        btn.addEventListener('click', () => {
+            let val = btn.getAttribute('data-value');
+            document.getElementById('amount').value = val;
+            konversi();
+        });
+    });
+    
+    // Enter key
+    document.getElementById('amount').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            konversi();
+        }
+    });
+    
+    // Jalankan pertama kali
+    konversi();
+</script>
+</body>
+</html>
